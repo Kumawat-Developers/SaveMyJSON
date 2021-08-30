@@ -1,3 +1,4 @@
+  
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -9,12 +10,17 @@
 
 <url>
   <loc>https://savemyjson.kumawat.co.in/</loc>
-  <lastmod>2021-06-28T12:55:37+00:00</lastmod>
+  <lastmod>2021-08-11T00:33:42+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://savemyjson.kumawat.co.in/home</loc>
+  <lastmod>2021-08-11T00:33:42+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>https://savemyjson.kumawat.co.in/app/myjson/612c6547dfcf4d00b66941d9</loc>
-  <lastmod>2021-06-28T12:55:37+00:00</lastmod>
+  <lastmod>2021-08-11T00:33:42+00:00</lastmod>
   <priority>0.80</priority>
 </url>
-
 </urlset>
