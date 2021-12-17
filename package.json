@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
+    "@nguniversal/express-engine": "^13.0.1",
     "@types/rx": "^4.1.2",
     "ang-jsoneditor": "^1.10.5",
     "jsoneditor": "^7.5.0",
