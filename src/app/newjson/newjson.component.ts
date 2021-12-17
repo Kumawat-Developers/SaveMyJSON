@@ -36,6 +36,9 @@ export class NewjsonComponent implements OnInit {
   public errors: string;
   private subscription: Subscription;
   router: Router;
+
+  deferredPrompt: any;
+  showButton = false;
   @ViewChild(JsonEditorComponent, { static: true }) editor: JsonEditorComponent;
   @ViewChild(JsonEditorComponent, { static: true }) editorr: JsonEditorComponent;
 
@@ -74,7 +77,7 @@ export class NewjsonComponent implements OnInit {
   }
   public preSubmitForm(): void {
     this.recaptchaV3Service.execute('importantAction')
-      .subscribe((token) => { 
+      .subscribe((token) => {
         console.log("What do I do with this?: ", token)
       });
   }
@@ -184,5 +187,21 @@ export class NewjsonComponent implements OnInit {
       });
 
 
+  }
+
+  addToHomeScreen() {
+    // hide our user interface that shows our A2HS button
+    this.showButton = false;
+    // Show the prompt
+    this.deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    this.deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        console.log("User dismissed the A2HS prompt");
+      }
+      this.deferredPrompt = null;
+    });
   }
 }

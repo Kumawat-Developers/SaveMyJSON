@@ -22,6 +22,7 @@
     "@angular/platform-webworker": "^10.2.3",
     "@angular/platform-webworker-dynamic": "^10.2.3",
     "@angular/router": "^13.1.1",
+    "@angular/service-worker": "^13.1.1",
     "@nguniversal/express-engine": "^13.0.1",
     "@types/rx": "^4.1.2",
     "ang-jsoneditor": "^1.10.5",

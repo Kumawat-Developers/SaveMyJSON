@@ -4,3 +4,13 @@
 :host ::ng-deep json-editor jsoneditor-outer {
   height: 500px;
 }
+
+
+.footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 102;
+  align-items: center;
+  text-align: center;
+}
