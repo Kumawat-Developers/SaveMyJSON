@@ -27,7 +27,7 @@
     "@types/rx": "^4.1.2",
     "ang-jsoneditor": "^1.10.5",
     "install": "^0.13.0",
-    "jsoneditor": "^7.5.0",
+    "jsoneditor": "^9.5.6",
     "ng-recaptcha": "^8.0.0",
     "ngx-clipboard": "^12.3.1",
     "ngx-ui-loader": "^11.0.0",
