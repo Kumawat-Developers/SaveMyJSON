@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^11.2.14",
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/platform-webworker": "^10.2.3",
+    "@angular/platform-webworker-dynamic": "^10.2.3",
     "@angular/router": "^11.2.14",
     "@nguniversal/express-engine": "^13.0.1",
     "@types/rx": "^4.1.2",
