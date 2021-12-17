@@ -28,7 +28,7 @@
     "jsoneditor": "^7.5.0",
     "ng-recaptcha": "^8.0.0",
     "ngx-clipboard": "^12.3.1",
-    "ngx-ui-loader": "^8.0.0",
+    "ngx-ui-loader": "^11.0.0",
     "primeicons": "^2.0.0",
     "primeng": "^8.1.1",
     "rxjs": "^6.6.7",
