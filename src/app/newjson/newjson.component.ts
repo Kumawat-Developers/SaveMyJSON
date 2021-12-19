@@ -9,8 +9,8 @@ import { MessageService } from "primeng/api";
 import { ReCaptchaV3Service } from "ng-recaptcha";
 import { Subscription } from "rxjs";
 import { OnExecuteData } from "ng-recaptcha";
-import {DOCUMENT} from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from "@angular/core";
 @Component({
   selector: "app-newjson",
   templateUrl: "./newjson.component.html",
@@ -38,7 +38,7 @@ export class NewjsonComponent implements OnInit {
   public errors: string;
   private subscription: Subscription;
   router: Router;
-  private domain:any;
+  private domain: any;
   deferredPrompt: any;
   showButton = false;
   @ViewChild(JsonEditorComponent, { static: true }) editor: JsonEditorComponent;
@@ -84,7 +84,7 @@ export class NewjsonComponent implements OnInit {
       }
     );
     this.domain = this.document.location.hostname;
-        console.log(this.domain);
+    console.log(this.domain);
   }
   public preSubmitForm(): void {
     this.recaptchaV3Service.execute("importantAction").subscribe((token) => {
@@ -141,7 +141,7 @@ export class NewjsonComponent implements OnInit {
       this.ngxService.stop();
       console.log(res._id);
       this._id = res._id;
-      this.url = "https://savemyjson.kumawat.co.in/app/myjson/" + res._id;
+      this.url = "https://" + this.domain + "/app/myjson/" + res._id;
       this.api = "https://thread-frost-buffet.glitch.me/find?id=" + res._id;
       this.isApiLink = true;
       this.isURL = true;
@@ -172,25 +172,12 @@ export class NewjsonComponent implements OnInit {
     window.open(val, "_blank");
   }
   copyLink(val) {
-    console.log(val.replace("https://savemyjson.kumawat.co.in/", ""));
+    console.log(val.replace("https://" + this.domain + "/", ""));
 
     this._clipboardService.copy(val);
     //  this._router.navigate([val.replace("https://savemyjson.kumawat.co.in/", "")]);
     window.open(val, "_blank");
   }
-  kkk() {
-    var users = JSON.parse(localStorage.getItem("savemyjson") || "[]");
-
-    let request = {
-      timestamp: Date.now().toString(),
-      id: "l",
-      url: "https://savemyjson.kumawat.co.in/",
-      api: "https://thread-frost-buffet.glitch.me/find?id=",
-    };
-    users.push(request);
-    localStorage.setItem("savemyjson", JSON.stringify(users));
-  }
-
   getQuotes() {
     this.appService.getQuotes().subscribe((data) => {
       this.todayQuote = data[0].q;
