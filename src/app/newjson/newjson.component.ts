@@ -1,19 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
-import { AppService } from '../app.service';
-import { AppModel, AppStatus } from '../shared/appModel';
-import { Router } from '@angular/router';
-import { ClipboardService } from 'ngx-clipboard'
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { MessageService } from 'primeng/api';
-import { ReCaptchaV3Service } from 'ng-recaptcha';
-import { Subscription } from 'rxjs';
-import { OnExecuteData } from 'ng-recaptcha';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { JsonEditorComponent, JsonEditorOptions } from "ang-jsoneditor";
+import { AppService } from "../app.service";
+import { AppModel, AppStatus } from "../shared/appModel";
+import { Router } from "@angular/router";
+import { ClipboardService } from "ngx-clipboard";
+import { NgxUiLoaderService } from "ngx-ui-loader";
+import { MessageService } from "primeng/api";
+import { ReCaptchaV3Service } from "ng-recaptcha";
+import { Subscription } from "rxjs";
+import { OnExecuteData } from "ng-recaptcha";
+import {DOCUMENT} from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 @Component({
-  selector: 'app-newjson',
-  templateUrl: './newjson.component.html',
-  styleUrls: ['./newjson.component.css'],
-  providers: [MessageService, ReCaptchaV3Service]
+  selector: "app-newjson",
+  templateUrl: "./newjson.component.html",
+  styleUrls: ["./newjson.component.css"],
+  providers: [MessageService, ReCaptchaV3Service],
 })
 export class NewjsonComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
@@ -36,50 +38,58 @@ export class NewjsonComponent implements OnInit {
   public errors: string;
   private subscription: Subscription;
   router: Router;
-
+  private domain:any;
   deferredPrompt: any;
   showButton = false;
   @ViewChild(JsonEditorComponent, { static: true }) editor: JsonEditorComponent;
-  @ViewChild(JsonEditorComponent, { static: true }) editorr: JsonEditorComponent;
+  @ViewChild(JsonEditorComponent, { static: true })
+  editorr: JsonEditorComponent;
 
-  constructor(private recaptchaV3Service: ReCaptchaV3Service, private appService: AppService, private messageService: MessageService, private ngxService: NgxUiLoaderService, router: Router, private _clipboardService: ClipboardService, private _router: Router,) {
+  constructor(
+    private recaptchaV3Service: ReCaptchaV3Service,
+    private appService: AppService,
+    private messageService: MessageService,
+    private ngxService: NgxUiLoaderService,
+    router: Router,
+    private _clipboardService: ClipboardService,
+    private _router: Router,
+    @Inject(DOCUMENT) private document: any
+  ) {
     this.router = router;
     this.appModel = new AppModel();
 
     this.editorOption = new JsonEditorOptions();
-    this.editorOption.mode = 'code';
-    this.editorOption.modes = ['code', 'text', 'tree', 'view'];
+    this.editorOption.mode = "code";
+    this.editorOption.modes = ["code", "text", "tree", "view"];
 
-    this.appService.get(1).subscribe(
-
-      data => {
-
-        console.log(data);
-        this.json = data;
-        this.appModel = data;
-        console.log(this.appModel.flashlight);
-        this.data = this.json;
-      });
+    this.appService.get(1).subscribe((data) => {
+      console.log(data);
+      this.json = data;
+      this.appModel = data;
+      console.log(this.appModel.flashlight);
+      this.data = this.json;
+    });
   }
 
   ngOnInit() {
-
     this.existingJson = [];
 
     var jsonValues = JSON.parse(localStorage.getItem("savemyjson") || "[]");
     this.existingJson = jsonValues;
     console.log(this.existingJson);
     this.getQuotes();
-    this.subscription = this.recaptchaV3Service.onExecute
-    .subscribe((data: OnExecuteData) => {
-      console.log("DATA: ", data);
-    });
+    this.subscription = this.recaptchaV3Service.onExecute.subscribe(
+      (data: OnExecuteData) => {
+        console.log("DATA: ", data);
+      }
+    );
+    this.domain = this.document.location.hostname;
+        console.log(this.domain);
   }
   public preSubmitForm(): void {
-    this.recaptchaV3Service.execute('importantAction')
-      .subscribe((token) => {
-        console.log("What do I do with this?: ", token)
-      });
+    this.recaptchaV3Service.execute("importantAction").subscribe((token) => {
+      console.log("What do I do with this?: ", token);
+    });
   }
   public ngOnDestroy() {
     if (this.subscription) {
@@ -87,20 +97,28 @@ export class NewjsonComponent implements OnInit {
     }
   }
   handleToken(val) {
-    console.log("handleToken")
+    console.log("handleToken");
     console.log(val);
-    ;
-
   }
   getData(event: Event) {
     this.data = this.editor.get();
     this.appService.post(this.data, 1);
   }
   showSuccess() {
-    this.messageService.add({ sticky: true, severity: 'success', summary: 'Success', detail: 'Success' });
+    this.messageService.add({
+      sticky: true,
+      severity: "success",
+      summary: "Success",
+      detail: "Success",
+    });
   }
   showError() {
-    this.messageService.add({ sticky: true, severity: 'error', summary: 'Error', detail: 'Something went wrong.' });
+    this.messageService.add({
+      sticky: true,
+      severity: "error",
+      summary: "Error",
+      detail: "Something went wrong.",
+    });
   }
 
   postData() {
@@ -114,46 +132,42 @@ export class NewjsonComponent implements OnInit {
       json: JSON.stringify(this.newData),
       timestamps: Date.now().toString(),
       isPro: "false",
-      isActive: "true"
-    }
+      isActive: "true",
+    };
     this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // Stop the foreground loading after 5s
 
     this.appService.saveJson(userData).subscribe((res) => {
-
       this.ngxService.stop();
       console.log(res._id);
       this._id = res._id;
       this.url = "https://savemyjson.kumawat.co.in/app/myjson/" + res._id;
-      this.api = "https://thread-frost-buffet.glitch.me/find?id=" + res._id
+      this.api = "https://thread-frost-buffet.glitch.me/find?id=" + res._id;
       this.isApiLink = true;
       this.isURL = true;
       let request = {
-        "timestamp": Date.now().toString(),
-        "id": res._id,
-        "url": this.url,
-        "api": this.api
-      }
+        timestamp: Date.now().toString(),
+        id: res._id,
+        url: this.url,
+        api: this.api,
+      };
       var jsonValues = JSON.parse(localStorage.getItem("savemyjson") || "[]");
       jsonValues.push(request);
-      localStorage.setItem('savemyjson', JSON.stringify(jsonValues));
+      localStorage.setItem("savemyjson", JSON.stringify(jsonValues));
       this.showSuccess();
     });
-
-
 
     console.log(this.newData);
   }
 
   copyUrl() {
     this._clipboardService.copy(this.url);
-    this._router.navigate(['/app/myjson/' + this._id]);
+    this._router.navigate(["/app/myjson/" + this._id]);
   }
   copyAPI() {
     this._clipboardService.copy(this.api);
   }
   copyLinks(val) {
-
     this._clipboardService.copy(val);
     window.open(val, "_blank");
   }
@@ -165,28 +179,23 @@ export class NewjsonComponent implements OnInit {
     window.open(val, "_blank");
   }
   kkk() {
-
     var users = JSON.parse(localStorage.getItem("savemyjson") || "[]");
 
     let request = {
-      "timestamp": Date.now().toString(),
-      "id": "l",
-      "url": "https://savemyjson.kumawat.co.in/",
-      "api": "https://thread-frost-buffet.glitch.me/find?id="
-    }
+      timestamp: Date.now().toString(),
+      id: "l",
+      url: "https://savemyjson.kumawat.co.in/",
+      api: "https://thread-frost-buffet.glitch.me/find?id=",
+    };
     users.push(request);
-    localStorage.setItem('savemyjson', JSON.stringify(users));
+    localStorage.setItem("savemyjson", JSON.stringify(users));
   }
 
   getQuotes() {
-    this.appService.getQuotes().subscribe(
-
-      data => {
-        this.todayQuote = data[0].q;
-        console.log(this.todayQuote);
-      });
-
-
+    this.appService.getQuotes().subscribe((data) => {
+      this.todayQuote = data[0].q;
+      console.log(this.todayQuote);
+    });
   }
 
   addToHomeScreen() {
