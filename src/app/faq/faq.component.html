@@ -1,0 +1,8 @@
+<p-card header="FAQ" [style]="{'width': '100%', 'margin-bottom': '2em','text-align': 'center'}">
+  <h1>FAQ - SaveMyJson</h1>
+</p-card>
+<p-accordion *ngFor="let headers of header">
+  <p-accordionTab [header]="headers.q">
+    {{headers.ans}}
+  </p-accordionTab>
+</p-accordion>

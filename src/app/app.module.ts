@@ -25,13 +25,22 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { ReactiveFormsModule } from "@angular/forms";
-
+import { AboutusComponent } from './aboutus/aboutus.component';
+import {AccordionModule} from 'primeng/accordion';
+import { FAQComponent } from './faq/faq.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import {CardModule} from 'primeng/card';
 @NgModule({
   declarations: [
     AppComponent,
     MyjsonComponent,
     NewjsonComponent,
     NotFoundComponent,
+    AboutusComponent,
+    FAQComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +56,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     CommonModule,
     ReactiveFormsModule,
     ToastModule,
+    AccordionModule,
+    CardModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

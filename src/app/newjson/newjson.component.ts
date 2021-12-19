@@ -34,13 +34,11 @@ export class NewjsonComponent implements OnInit {
   public appStatus: AppStatus;
   public appData: any;
   public existingJson = [];
-  public todayQuote: string;
   public errors: string;
   private subscription: Subscription;
   router: Router;
   private domain: any;
-  deferredPrompt: any;
-  showButton = false;
+
   @ViewChild(JsonEditorComponent, { static: true }) editor: JsonEditorComponent;
   @ViewChild(JsonEditorComponent, { static: true })
   editorr: JsonEditorComponent;
@@ -77,7 +75,7 @@ export class NewjsonComponent implements OnInit {
     var jsonValues = JSON.parse(localStorage.getItem("savemyjson") || "[]");
     this.existingJson = jsonValues;
     console.log(this.existingJson);
-    this.getQuotes();
+
     this.subscription = this.recaptchaV3Service.onExecute.subscribe(
       (data: OnExecuteData) => {
         console.log("DATA: ", data);
@@ -178,26 +176,6 @@ export class NewjsonComponent implements OnInit {
     //  this._router.navigate([val.replace("https://savemyjson.kumawat.co.in/", "")]);
     window.open(val, "_blank");
   }
-  getQuotes() {
-    this.appService.getQuotes().subscribe((data) => {
-      this.todayQuote = data[0].q;
-      console.log(this.todayQuote);
-    });
-  }
 
-  addToHomeScreen() {
-    // hide our user interface that shows our A2HS button
-    this.showButton = false;
-    // Show the prompt
-    this.deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    this.deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("User accepted the A2HS prompt");
-      } else {
-        console.log("User dismissed the A2HS prompt");
-      }
-      this.deferredPrompt = null;
-    });
-  }
+
 }
