@@ -1,10 +1,9 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Component, Inject, ViewChild } from "@angular/core";
 import { JsonEditorComponent, JsonEditorOptions } from "ang-jsoneditor";
 import { MessageService } from "primeng/api";
-import { AppService } from "./app.service";
+import { SeoService } from "./seo.service";
 import { AppModel, AppStatus } from "./shared/appModel";
-import { DOCUMENT } from "@angular/common";
-import { Inject, Injectable } from "@angular/core";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -23,28 +22,19 @@ export class AppComponent {
   @ViewChild(JsonEditorComponent, { static: true }) editor: JsonEditorComponent;
   @ViewChild(JsonEditorComponent, { static: true })
   editorr: JsonEditorComponent;
-
-  title = "Angularcall gfgfd";
-
   constructor(
-    private appService: AppService,
     private messageService: MessageService,
-    @Inject(DOCUMENT) private document: any,
+    private seo: SeoService,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.appModel = new AppModel();
     this.editorOptions = new JsonEditorOptions();
     this.editorOptions.modes = ["code", "text", "tree", "view"];
     this.editorOption = new JsonEditorOptions();
     this.editorOption.modes = ["code", "text", "tree", "view"];
-    this.appService.get(1).subscribe((data) => {
-      this.json = data;
-      this.appModel = data;
-      this.data = this.json;
-    });
+
 
     setTimeout(() => {
-      console.log("dasdas");
-
       this.messageService.add({
         severity: "success",
         summary: "Success Message",
@@ -55,19 +45,6 @@ export class AppComponent {
     link.setAttribute("rel", "canonical");
     this.document.head.appendChild(link);
     link.setAttribute("href", this.document.URL);
-  }
-  getData(event: Event) {
-    this.data = this.editor.get();
-    this.appService.post(this.data, 1);
-  }
-  postData() {
-    this.newData = this.editorr.get();
-    this.appService
-      .postAdd(this.newData)
-      .toPromise()
-      .then((data) => {
-        this.appData = data;
-        this.appStatus = this.appData;
-      });
+    this.seo.setCanonicalURL();
   }
 }

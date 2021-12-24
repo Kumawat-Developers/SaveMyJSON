@@ -78,22 +78,4 @@ export class MyjsonComponent implements OnInit {
       detail: "Something went wrong.",
     });
   }
-  getData(event: Event) {
-    this.data = this.editor.get();
-    console.log(this.data);
-    this.appService.post(this.data, this.myJsonId);
-  }
-
-  postData() {
-    this.newData = this.editorr.get();
-    this.appService
-      .postAdd(this.newData)
-      .toPromise()
-      .then((data) => {
-        this.appData = data;
-        this.appStatus = this.appData;
-      });
-    console.log(this.newData);
-  }
-
 }

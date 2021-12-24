@@ -59,14 +59,6 @@ export class NewjsonComponent implements OnInit {
     this.editorOption = new JsonEditorOptions();
     this.editorOption.mode = "code";
     this.editorOption.modes = ["code", "text", "tree", "view"];
-
-    this.appService.get(1).subscribe((data) => {
-      console.log(data);
-      this.json = data;
-      this.appModel = data;
-      console.log(this.appModel.flashlight);
-      this.data = this.json;
-    });
   }
 
   ngOnInit() {
@@ -98,10 +90,6 @@ export class NewjsonComponent implements OnInit {
     console.log("handleToken");
     console.log(val);
   }
-  getData(event: Event) {
-    this.data = this.editor.get();
-    this.appService.post(this.data, 1);
-  }
   showSuccess() {
     this.messageService.add({
       sticky: true,
@@ -121,11 +109,6 @@ export class NewjsonComponent implements OnInit {
 
   postData() {
     this.newData = this.editorr.get();
-    // this.appService.postAdd(this.newData).toPromise().then(data => {
-    //   this.appData = data;
-    //   this.appStatus = this.appData;
-    //   this.router.navigateByUrl('myjson/' + this.appStatus.postid);
-    // });
     let userData = {
       json: JSON.stringify(this.newData),
       timestamps: Date.now().toString(),
@@ -176,6 +159,4 @@ export class NewjsonComponent implements OnInit {
     //  this._router.navigate([val.replace("https://savemyjson.kumawat.co.in/", "")]);
     window.open(val, "_blank");
   }
-
-
 }
